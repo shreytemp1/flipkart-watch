@@ -47,16 +47,32 @@ Exit codes: `0` all checked, `1` some listings could not be checked, `2` everyth
 4. In the GitHub repo: Settings → Secrets and variables → Actions → add
    `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID`.
 
-## Deploy
+## Local 5-minute timer
+
+A systemd user timer is installed on this machine and checks every 5 minutes:
 
 ```bash
-git add -A && git commit -m "feat: flipkart find x9 pincode watcher"
-git remote add origin git@github.com:<you>/flipkart-watch.git
-git push -u origin HEAD
+systemctl --user list-timers fkwatch.timer   # next run
+journalctl --user -u fkwatch.service -f      # live logs
+systemctl --user disable --now fkwatch.timer # stop it
 ```
 
-Add the two secrets, then run the workflow once from the Actions tab ("flipkart-watch" → Run workflow) to
-verify.
+Credentials live in `/home/patel/flipkart-watch/.env` (mode 600, git-ignored). Linger is enabled, so the timer
+survives logout, but it only runs while this machine is powered on.
+
+## Deploy to GitHub Actions
+
+```bash
+git remote add origin https://github.com/<you>/flipkart-watch.git
+git push -u origin main
+```
+
+Then add `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` under **Settings → Secrets and variables → Actions**, and
+run the workflow once from the Actions tab ("flipkart-watch" → Run workflow) to verify.
+
+Keep the repo **public** for unlimited Actions minutes; at a 5-minute cadence a private repo exceeds the free
+2,000 minutes/month. A public repo exposes the address line in `config.yaml` (pincode-level serviceability does
+not depend on it).
 
 ## Configuration
 
