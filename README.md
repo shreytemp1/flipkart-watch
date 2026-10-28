@@ -47,19 +47,6 @@ Exit codes: `0` all checked, `1` some listings could not be checked, `2` everyth
 4. In the GitHub repo: Settings → Secrets and variables → Actions → add
    `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID`.
 
-## Local 5-minute timer
-
-A systemd user timer is installed on this machine and checks every 5 minutes:
-
-```bash
-systemctl --user list-timers fkwatch.timer   # next run
-journalctl --user -u fkwatch.service -f      # live logs
-systemctl --user disable --now fkwatch.timer # stop it
-```
-
-Credentials live in `/home/patel/flipkart-watch/.env` (mode 600, git-ignored). Linger is enabled, so the timer
-survives logout, but it only runs while this machine is powered on.
-
 ## Deploy to GitHub Actions
 
 ```bash
