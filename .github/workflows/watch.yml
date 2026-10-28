@@ -2,8 +2,9 @@ name: flipkart-watch
 
 on:
   schedule:
-    # GitHub's minimum granularity. Runs may be delayed 5-20 min during peak load.
-    - cron: "*/5 * * * *"
+    # GitHub's scheduler floor is 5 minutes. Two checks per 6-minute run
+    # (t=0 and t=3 min) give an effective 3-minute cadence.
+    - cron: "*/6 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -16,7 +17,7 @@ concurrency:
 jobs:
   watch:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 
@@ -40,7 +41,14 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python -m fkwatch
+        run: |
+          rc1=0
+          python -m fkwatch || rc1=$?
+          sleep 180
+          rc2=0
+          python -m fkwatch || rc2=$?
+          # The latest check decides the workflow status; the first error was already reported to Telegram.
+          exit "$rc2"
 
       - name: Save watcher state
         if: always()

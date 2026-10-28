@@ -89,7 +89,8 @@ Errors are a separate `⚠️` message listing the failing listing and the reaso
 ## 5. Delivery pipeline
 
 `.github/workflows/watch.yml`
-- `schedule: '*/5 * * * *'` + `workflow_dispatch`
+- `schedule: '*/6 * * * *'` + `workflow_dispatch`; each run checks at t=0 and t=3 min for an effective
+  3-minute cadence (GitHub's scheduler floor is 5 minutes)
 - `concurrency: {group: flipkart-watch, cancel-in-progress: false}`
 - `timeout-minutes: 5`
 - installs the package, runs `python -m fkwatch`, uploads `result.json` as an artifact
@@ -113,8 +114,8 @@ Errors are a separate `⚠️` message listing the failing listing and the reaso
 | Flipkart changes the internal API | All parsing defensive; failures become `error`, exit non-zero; fixtures pin the contract |
 | Cloud IP blocked (403/406) | Browser-like headers, retry/backoff, error report instead of false negative |
 | Pincode silently not applied (`NO_PINCODE`) or payload missing (`NO_PSI`) | Treat as retryable, discard cookies, re-prime with a fresh session, retry once; if still failing, mark `error` (never "not available") |
-| GitHub drops 5-min runs | Documented; `changes` mode reduces noise; manual dispatch available |
-| 288 messages/day too noisy | `notify.mode: changes` |
+| GitHub delays/drops scheduled runs | Documented; the 3-minute cadence is two checks per 6-minute run; manual dispatch available |
+| 480 messages/day too noisy | `notify.mode: changes` |
 | Price flips between sellers | Price comes from the same `psi.ppd` payload as availability |
 
 ## 8. Open items for the owner

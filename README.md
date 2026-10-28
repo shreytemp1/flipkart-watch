@@ -1,11 +1,11 @@
 # flipkart-watch
 
-Watches the four Flipkart listings of the **OPPO Find X9 12 GB + 256 GB** and reports, every 5 minutes via
+Watches the four Flipkart listings of the **OPPO Find X9 12 GB + 256 GB** and reports, every 3 minutes via
 GitHub Actions, whether any of them is in stock **and deliverable to pincode 412101**. Sends a Telegram message
 with the direct link and price when something is available.
 
 - No browser, no API key, no account. Plain HTTPS.
-- Every 5 minutes at best (GitHub's cron floor and delay apply).
+- Effective 3-minute cadence: two checks per 6-minute run (GitHub's scheduler floor is 5 minutes).
 - If Flipkart drops the pincode context (or returns an incomplete page), the watcher restarts the session and
   retries once before reporting an error.
 
@@ -57,7 +57,7 @@ git push -u origin main
 Then add `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` under **Settings → Secrets and variables → Actions**, and
 run the workflow once from the Actions tab ("flipkart-watch" → Run workflow) to verify.
 
-Keep the repo **public** for unlimited Actions minutes; at a 5-minute cadence a private repo exceeds the free
+Keep the repo **public** for unlimited Actions minutes; at this cadence a private repo far exceeds the free
 2,000 minutes/month. A public repo exposes the address line in `config.yaml` (pincode-level serviceability does
 not depend on it).
 
@@ -66,13 +66,14 @@ not depend on it).
 `config.yaml` holds pincode, address, listings and the notification mode.
 
 - `notify.mode: always` (default) — one message per run, as requested.
-- `notify.mode: changes` — only when availability or price changes. Recommended if 288 messages/day is too
+- `notify.mode: changes` — only when availability or price changes. Recommended if 480 messages/day is too
   many.
 
 ## Important limits
 
-- GitHub cron cannot run more often than every 5 minutes and is often delayed; it is not a real-time alert.
-- 288 runs/day needs a **public** repo (unlimited Actions minutes). Private repos only get 2,000 min/month.
+- GitHub's scheduler floor is 5 minutes and runs are often delayed; the 3-minute cadence is two checks inside a
+  6-minute run, not a true 3-minute cron.
+- 480 checks/day needs a **public** repo (unlimited Actions minutes). Private repos only get 2,000 min/month.
 - Scheduled workflows are disabled after 60 days without repo activity — push any commit to re-enable.
 - Flipkart's internal API is undocumented. If it changes, runs report `⚠️ Could not check` and exit non-zero
   instead of lying about stock.

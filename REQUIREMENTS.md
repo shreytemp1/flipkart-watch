@@ -6,7 +6,8 @@ Status: agreed baseline, v1.
 
 Watch every Flipkart listing of the **OPPO Find X9 base model, 12 GB RAM + 256 GB storage**, check whether it is
 buyable and deliverable to **pincode 412101** (KK Marks Building A & B, Pimpri-Chinchwad, Maharashtra), and report
-the result to Telegram. Runs unattended from GitHub Actions every 5 minutes.
+the result to Telegram. Runs unattended from GitHub Actions on an effective 3-minute cadence
+(two checks per 6-minute workflow run).
 
 ## 2. Watched listings
 
@@ -52,10 +53,12 @@ refurbished / third-party marketplaces (Amazon, OPPO store).
 ## 5. Constraints and known limitations
 
 - **C-1 GitHub cron floor.** `schedule` minimum is 5 minutes, but GitHub may delay or drop runs under load.
-  Expect 5–20 minute effective cadence. This is a platform limit, not a bug in this repo.
-- **C-2 5-minute polling is 288 messages/day** in `always` mode. Switch `notify.mode: changes` to reduce noise.
-- **C-3 Private-repo minutes.** 288 runs/day ≈ 8,600 Actions minutes/month, above the 2,000 free minutes for
-  private repos. Keep the repo **public** (unlimited minutes) or use `changes` mode + a longer cron.
+  The 3-minute cadence is implemented as two checks (t=0 and t=3 min) inside a 6-minute run. This is a platform
+  workaround, not a true 3-minute cron; gaps can exceed 3 minutes when GitHub delays a run.
+- **C-2 3-minute polling is 480 messages/day** in `always` mode. Switch `notify.mode: changes` to reduce noise.
+- **C-3 Private-repo minutes.** 240 jobs/day, each holding a runner for ~4 minutes (sleep + two checks), is
+  roughly 28,800 Actions minutes/month — far above the 2,000 free minutes for private repos. Keep the repo
+  **public** (unlimited minutes).
 - **C-4 Scheduled workflows are auto-disabled after 60 days of repo inactivity.** Any commit re-enables them.
 - **C-5 IP reputation.** Flipkart may rate-limit or block cloud IPs. On block the run reports an error rather
   than a false "unavailable".
