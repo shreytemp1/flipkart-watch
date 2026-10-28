@@ -63,14 +63,14 @@ def test_happy_path_binds_pincode_and_returns_availability():
     assert result.available is True
     assert result.price == 79999.0
     calls = c.session.calls
-    assert [call["method"] for call in calls] == ["GET", "POST", "POST"]
-    assert calls[0]["url"] == PRODUCT.url
-    assert calls[1]["url"] == LOCATION_UPDATE_URL
+    assert [call["method"] for call in calls] == ["POST", "GET", "POST"]
+    assert calls[0]["url"] == LOCATION_UPDATE_URL
+    assert calls[1]["url"] == PRODUCT.url
     assert calls[2]["url"] == PAGE_FETCH_URL
 
-    location_body = calls[1]["kwargs"]["json"]
+    location_body = calls[0]["kwargs"]["json"]
     assert location_body["addressInfo"]["pincode"] == "412101"
-    assert calls[1]["kwargs"]["headers"]["x-user-agent"].endswith("FKUA/msite/0.0.4/msite/Mobile")
+    assert calls[0]["kwargs"]["headers"]["x-user-agent"].endswith("FKUA/msite/0.0.4/msite/Mobile")
 
     fetch_body = calls[2]["kwargs"]["json"]
     assert fetch_body["pageUri"] == f"{PRODUCT.path}?pid={PRODUCT.pid}"
@@ -173,7 +173,7 @@ def test_pincode_still_not_applied_returns_error():
 
 def test_location_update_with_wrong_pincode_is_an_error():
     wrong = {"RESPONSE": {"currentPincode": "400001"}}
-    c, _ = client([FakeResponse(200), FakeResponse(200, wrong)])
+    c, _ = client([FakeResponse(200, wrong)])
     result = c.check(PRODUCT)
     assert result.available is False
     assert result.error is not None

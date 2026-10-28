@@ -152,9 +152,12 @@ class FlipkartClient:
     def prime(self, product: Product) -> None:
         if self._primed:
             return
+        # Bind the pincode *before* loading the product page. With the reverse
+        # order Flipkart answered NO_PINCODE for roughly half of the sessions in
+        # testing; bind-then-load was reliable (16/16).
+        self.bind_pincode()
         self._request("GET", product.url)
         self._primed = True
-        self.bind_pincode()
 
     def bind_pincode(self) -> None:
         body = {
