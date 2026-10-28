@@ -1,5 +1,7 @@
 # flipkart-watch
 
+[![flipkart-watch](https://github.com/shreytemp1/flipkart-watch/actions/workflows/watch.yml/badge.svg)](https://github.com/shreytemp1/flipkart-watch/actions/workflows/watch.yml)
+
 Watches the four Flipkart listings of the **OPPO Find X9 12 GB + 256 GB** and reports, every 3 minutes via
 GitHub Actions, whether any of them is in stock **and deliverable to pincode 412101**. Sends a Telegram message
 with the direct link and price when something is available.
