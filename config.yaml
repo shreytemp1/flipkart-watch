@@ -22,9 +22,10 @@ products:
 device: "OPPO Find X9 12+256"
 
 notify:
-  # always  -> one message per run (default, as requested)
-  # changes -> only when availability or price changes
-  mode: always
+  # always    -> one message per run
+  # changes   -> only when availability or price changes
+  # available -> only when at least one listing is in stock and deliverable
+  mode: available
 
 http:
   timeout_seconds: 30

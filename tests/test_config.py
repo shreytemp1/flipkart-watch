@@ -18,7 +18,7 @@ def test_repository_config_is_valid():
         "MOBHKZVXT93DXHMP",
         "MOBHG8Y56JNQGGTX",
     }
-    assert config.notify.mode == "always"
+    assert config.notify.mode == "available"
 
 
 def test_product_url_is_built():

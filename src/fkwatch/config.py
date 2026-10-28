@@ -79,8 +79,10 @@ class Config:
 
         notify_raw = raw.get("notify") or {}
         mode = str(notify_raw.get("mode", "always")).strip().lower()
-        if mode not in {"always", "changes"}:
-            raise ConfigError(f"{path}: notify.mode must be 'always' or 'changes', got {mode!r}")
+        if mode not in {"always", "changes", "available"}:
+            raise ConfigError(
+                f"{path}: notify.mode must be 'always', 'changes' or 'available', got {mode!r}"
+            )
 
         http_raw = raw.get("http") or {}
         telegram_raw = raw.get("telegram") or {}

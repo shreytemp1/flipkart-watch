@@ -62,6 +62,16 @@ def _parser() -> argparse.ArgumentParser:
     return parser
 
 
+def should_notify(mode: str, report: RunReport, previous: dict[str, dict[str, object]]) -> bool:
+    """Decide whether a Telegram message should be sent for this report."""
+    if mode == "changes":
+        return is_changed(previous, report)
+    if mode == "available":
+        # Only alert when at least one listing is actually buyable.
+        return report.any_available
+    return True
+
+
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
     logging.basicConfig(
@@ -89,10 +99,12 @@ def main(argv: list[str] | None = None) -> int:
     state_path = Path(args.state)
     previous = load_state(state_path)
 
-    should_send = True
-    if config.notify.mode == "changes" and not is_changed(previous, report):
-        should_send = False
-        LOG.info("no availability/price change; skipping notification")
+    should_send = should_notify(config.notify.mode, report, previous)
+    if not should_send:
+        if config.notify.mode == "changes":
+            LOG.info("no availability/price change; skipping notification")
+        elif config.notify.mode == "available":
+            LOG.info("nothing available; skipping notification")
 
     if args.dry_run:
         print(message)
