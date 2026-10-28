@@ -109,11 +109,10 @@ def main(argv: list[str] | None = None) -> int:
     if args.dry_run:
         print(message)
         print()
-        print(f"[dry-run] would send {len(message)} chars; mode={config.notify.mode}; "
+        print(f"[dry-run] {'would send' if should_send else 'would NOT send'} "
+              f"{len(message)} chars; mode={config.notify.mode}; "
               f"available={report.any_available}; errors={len(report.errors)}")
-    elif not should_send:
-        LOG.info("notification suppressed by notify.mode=changes")
-    else:
+    elif should_send:
         token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
         chat_id = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
         if not token or not chat_id:
