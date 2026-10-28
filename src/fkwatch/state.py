@@ -37,9 +37,14 @@ def is_changed(previous: dict[str, dict[str, object]], report: RunReport) -> boo
         return True
     current = _snapshot(report)
     for pid, state in current.items():
-        old = previous.get(pid) or {}
-        if state["error"] or old.get("error"):
+        old = previous.get(pid)
+        if old is None:
+            return True
+        if state["error"]:
             continue
+        if old.get("error"):
+            # Recovered from an error: the real status is news again.
+            return True
         if bool(state["available"]) != bool(old.get("available")):
             return True
         if state["price"] != old.get("price"):
