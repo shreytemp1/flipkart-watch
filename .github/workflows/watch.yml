@@ -1,10 +1,11 @@
 name: flipkart-watch
 
 on:
-  schedule:
-    # GitHub's scheduler floor is 5 minutes. Two checks per 6-minute run
-    # (t=0 and t=3 min) give an effective 3-minute cadence.
-    - cron: "*/6 * * * *"
+  # Triggered by an external cron (cron-job.org) hitting the repository_dispatch API.
+  # GitHub's own scheduler is unreliable below 5 minutes and was not firing at all.
+  repository_dispatch:
+    types:
+      - flipkart-stock-check
   workflow_dispatch:
 
 permissions:
@@ -41,14 +42,7 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: |
-          rc1=0
-          python -m fkwatch || rc1=$?
-          sleep 180
-          rc2=0
-          python -m fkwatch || rc2=$?
-          # The latest check decides the workflow status; the first error was already reported to Telegram.
-          exit "$rc2"
+        run: python -m fkwatch
 
       - name: Save watcher state
         if: always()
