@@ -1,0 +1,59 @@
+name: flipkart-watch
+
+on:
+  schedule:
+    # GitHub's minimum granularity. Runs may be delayed 5-20 min during peak load.
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: flipkart-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install
+        run: pip install -e .
+
+      - name: Restore watcher state
+        uses: actions/cache/restore@v4
+        with:
+          path: .state
+          key: fkwatch-state-${{ github.run_id }}
+          restore-keys: |
+            fkwatch-state-
+
+      - name: Check availability and notify
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python -m fkwatch
+
+      - name: Save watcher state
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .state
+          key: fkwatch-state-${{ github.run_id }}
+
+      - name: Upload result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: result-${{ github.run_id }}
+          path: result.json
+          if-no-files-found: ignore
+          retention-days: 3

@@ -1,0 +1,198 @@
+{
+ "RESPONSE": {
+  "pageData": {
+   "seoData": {
+    "seo": {
+     "title": "OPPO Find X9 (256 GB Storage, 12 GB RAM) Online at Best Price On Flipkart.com"
+    }
+   },
+   "pageContext": {
+    "fdpEventTracking": {
+     "events": {
+      "psi": {
+       "fsn": "MOBHGZZ8GH2Z85MY",
+       "fid": "36829763-06b2-426b-855a-10cbc31f678f.MOBHGZZ8GH2Z85MY",
+       "pr": {
+        "parameterRating": [
+         {
+          "parameter": "Camera",
+          "rating": "4.6"
+         },
+         {
+          "parameter": "Battery",
+          "rating": "4.6"
+         },
+         {
+          "parameter": "Display",
+          "rating": "4.6"
+         },
+         {
+          "parameter": "Design",
+          "rating": "4.7"
+         },
+         {
+          "parameter": "Performance",
+          "rating": "4.6"
+         },
+         {
+          "parameter": "Build Quality",
+          "rating": "4.6"
+         },
+         {
+          "parameter": "Value for Money",
+          "rating": "4.3"
+         }
+        ],
+        "individualRatingsCount": [
+         {
+          "ratingValue": 1,
+          "ratingCount": 31
+         },
+         {
+          "ratingValue": 2,
+          "ratingCount": 5
+         },
+         {
+          "ratingValue": 3,
+          "ratingCount": 18
+         },
+         {
+          "ratingValue": 4,
+          "ratingCount": 107
+         },
+         {
+          "ratingValue": 5,
+          "ratingCount": 468
+         }
+        ],
+        "rating": 4.6,
+        "ratingsCount": 629,
+        "reviewsCount": 118
+       },
+       "bd": "OPPO",
+       "pas": {
+        "imagesCount": 25,
+        "videosCount": 0,
+        "questionsCount": 0,
+        "answersCount": 0
+       },
+       "os": {
+        "offerCount": 8,
+        "offerSummary": [
+         {
+          "id": "nb:mp:09m8pfeu23",
+          "type": "BASKETPRICE_PAYMENT_DISCOUNT"
+         },
+         {
+          "id": "nb:mp:08y7h5wl15",
+          "type": "BASKETPRICE_PAYMENT_DISCOUNT"
+         },
+         {
+          "id": "nb:mp:098ae26s27",
+          "type": "BASKETPRICE_PAYMENT_DISCOUNT"
+         },
+         {
+          "id": "nb:mp:09ouo88402",
+          "type": "BASKET_TDO_GIVEAWAY"
+         },
+         {
+          "id": "nb:mp:083q7in224",
+          "type": "BASKET_TDO_GIVEAWAY"
+         },
+         {
+          "id": "nb:mp:098c8c2003",
+          "type": "BASKETPRICE_PAYMENT_DISCOUNT"
+         },
+         {
+          "id": "nb:mp:08zg8xlg30",
+          "type": "BASKETPRICE_PAYMENT_DISCOUNT"
+         },
+         {
+          "id": "nb:mp:09hsjcej22",
+          "type": "BASKETPRICE_PAYMENT_DISCOUNT"
+         }
+        ]
+       },
+       "ppd": {
+        "fsp": 79999.0,
+        "finalPrice": 79999.0,
+        "mrp": 79999.0,
+        "nepPrice": 65999.0,
+        "xtraSaverPrice": 0.0,
+        "specialPrice": false,
+        "isSpecialPrice": false
+       },
+       "ma": {
+        "nepavailable": true,
+        "ebook": false,
+        "arviewAvailable": false,
+        "dabotAvailable": true,
+        "digital": false,
+        "videoAvailable": false,
+        "brandChatAvailable": false,
+        "isBrandChatAvailable": false,
+        "isEbook": false,
+        "isDigital": false,
+        "isVideoAvailable": false,
+        "isDABotAvailable": true,
+        "isARViewAvailable": false,
+        "isNEPAvailable": true
+       },
+       "nb": {
+        "nonBuyable": true,
+        "isNonBuyable": true,
+        "nonBuyablilityReason": "NotAvailable"
+       },
+       "isa": true,
+       "pls": {
+        "sellerId": "3244867f27b349ac",
+        "unserviceabilityReason": "NotAvailable",
+        "listingId": "LSTMOBHGZZ8GH2Z85MY0XEYDM",
+        "availabilityStatus": "OUT_OF_STOCK",
+        "listingState": "current",
+        "hlStoreInfo": {},
+        "gstbillingAvailable": true,
+        "preBook": false,
+        "fbf": true,
+        "fa": true,
+        "listingFlip": true,
+        "available": false,
+        "serviceable": false,
+        "isPreBook": false,
+        "isGSTBillingAvailable": true,
+        "isAvailable": false,
+        "isListingFlip": true,
+        "isFA": true,
+        "isServiceable": false,
+        "isFBF": true
+       },
+       "swa": [
+        {
+         "attributeValue": "Space Black",
+         "attributeName": "color"
+        },
+        {
+         "attributeValue": "256 GB + 12 GB",
+         "attributeName": "storage+ram"
+        }
+       ],
+       "pi": {
+        "returnPolicy": "7_day_replacement_service_centre_action",
+        "codavailable": false,
+        "noCostEmi": false,
+        "isCODAvailable": false,
+        "isNoCostEmi": false,
+        "codNonAvailableReason": "NotAvailable : Inventory is not available"
+       },
+       "evfd": false,
+       "cd": {
+        "cashComponent": 0.0,
+        "coinComponent": 0.0
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

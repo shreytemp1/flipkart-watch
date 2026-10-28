@@ -1,0 +1,42 @@
+{
+ "RESPONSE": {
+  "pageData": {
+   "seoData": {
+    "seo": {
+     "title": "OPPO Find X9 (256 GB Storage, 12 GB RAM) Online at Best Price On Flipkart.com"
+    }
+   },
+   "pageContext": {
+    "fdpEventTracking": {
+     "events": {
+      "psi": {
+       "fsn": "MOBHGZZ8GH2Z85MY",
+       "ppd": {
+        "fsp": 79999.0,
+        "finalPrice": 79999.0,
+        "mrp": 79999.0,
+        "nepPrice": 65999.0,
+        "xtraSaverPrice": 0.0,
+        "specialPrice": false,
+        "isSpecialPrice": false
+       },
+       "pls": {
+        "sellerId": "3244867f27b349ac",
+        "unserviceabilityReason": null,
+        "listingId": "LSTMOBHGZZ8GH2Z85MY0XEYDM",
+        "availabilityStatus": "IN_STOCK",
+        "listingState": "current",
+        "available": true,
+        "serviceable": true,
+        "isAvailable": true,
+        "isServiceable": true,
+        "isFBF": true,
+        "isFA": true
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

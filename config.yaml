@@ -1,0 +1,35 @@
+pincode: "412101"
+
+address:
+  line1: "KK Marks Building A & B"
+  city: "Pimpri-Chinchwad"
+  state: "Maharashtra"
+
+products:
+  - name: "Space Black"
+    path: /oppo-find-x9-space-black-256-gb/p/itma96fe4cab1395
+    pid: MOBHGZZ8GH2Z85MY
+  - name: "Titanium Grey"
+    path: /oppo-find-x9-titanium-grey-256-gb/p/itma96fe4cab1395
+    pid: MOBHGZZ8SAMGGJHR
+  - name: "Titanium Gray"
+    path: /oppo-find-x9-titanium-gray-256-gb/p/itma96fe4cab1395
+    pid: MOBHKZVXT93DXHMP
+  - name: "Velvet Red"
+    path: /oppo-find-x9-velvet-red-256-gb/p/itma96fe4cab1395
+    pid: MOBHG8Y56JNQGGTX
+
+device: "OPPO Find X9 12+256"
+
+notify:
+  # always  -> one message per run (default, as requested)
+  # changes -> only when availability or price changes
+  mode: always
+
+http:
+  timeout_seconds: 30
+  retries: 3
+  backoff_seconds: 2
+
+telegram:
+  api_base: https://api.telegram.org
