@@ -26,6 +26,17 @@ def test_available_mode_skips_when_every_check_failed():
     assert should_notify("available", report(failed), {}) is False
 
 
+def test_available_mode_respects_the_coupon_gate():
+    gated = Product(name="X9s", path="/x", pid="XYZ", min_coupon=10000)
+    no_coupon = CheckResult(product=gated, in_stock=True, deliverable=True, available=True)
+    assert should_notify("available", report(no_coupon), {}) is False
+
+    with_coupon = CheckResult(
+        product=gated, in_stock=True, deliverable=True, available=True, coupon=10000.0
+    )
+    assert should_notify("available", report(with_coupon), {}) is True
+
+
 def test_changes_mode_uses_previous_state():
     unchanged = CheckResult(product=PRODUCT, price=100.0)
     previous = {PRODUCT.pid: {"available": False, "price": 100.0, "error": None}}

@@ -42,11 +42,11 @@ def render_message(report: RunReport, device: str) -> str:
             "",
         ]
         for result in report.available:
-            lines.append(
-                f"• <b>{_esc(result.product.name)}</b> — <b>{result.price_text()}</b>\n"
-                f"   {_link(result)}"
-            )
-        others = [r for r in report.results if not r.available and r.ok]
+            line = f"• <b>{_esc(result.product.name)}</b> — <b>{result.price_text()}</b>"
+            if result.coupon:
+                line += f" — coupon <b>₹{result.coupon:,.0f} off</b>"
+            lines.append(f"{line}\n   {_link(result)}")
+        others = [r for r in report.results if r.ok and not r.qualifies]
         if others:
             lines.append("")
             lines.append("<i>Not available:</i>")

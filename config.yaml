@@ -19,7 +19,17 @@ products:
     path: /oppo-find-x9-velvet-red-256-gb/p/itma96fe4cab1395
     pid: MOBHG8Y56JNQGGTX
 
-device: "OPPO Find X9 12+256"
+  # Find X9s 256 GB — alert only when a ₹10,000 Flipkart coupon is available.
+  - name: "X9s Midnight Grey"
+    path: /oppo-find-x9s-midnight-grey-256-gb/p/itmeca45f29bf010
+    pid: MOBHN7ZWWYXQQKGE
+    min_coupon: 10000
+  - name: "X9s Lavender Sky"
+    path: /oppo-find-x9s-lavender-sky-256-gb/p/itmeca45f29bf010
+    pid: MOBHN7ZW6SBDHZWR
+    min_coupon: 10000
+
+device: "OPPO Find X9 / Find X9s 256GB"
 
 notify:
   # always    -> one message per run

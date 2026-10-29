@@ -37,10 +37,12 @@ def report_to_json(report: RunReport) -> dict[str, object]:
         "results": [
             {
                 **asdict(result),
+                "qualifies": result.qualifies,
                 "product": {
                     "name": result.product.name,
                     "pid": result.product.pid,
                     "url": result.product.url,
+                    "min_coupon": result.product.min_coupon,
                 },
             }
             for result in report.results
@@ -104,7 +106,7 @@ def main(argv: list[str] | None = None) -> int:
         if config.notify.mode == "changes":
             LOG.info("no availability/price change; skipping notification")
         elif config.notify.mode == "available":
-            LOG.info("nothing available; skipping notification")
+            LOG.info("no qualifying listing; skipping notification")
 
     if args.dry_run:
         print(message)

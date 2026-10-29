@@ -51,6 +51,57 @@ def test_available_message_includes_price_and_link():
     assert "Velvet Red — out of stock" in text
 
 
+def test_coupon_qualifying_listing_shows_coupon_amount():
+    gated = Product(
+        "X9s Lavender Sky",
+        "/oppo-find-x9s-lavender-sky-256-gb/p/itmeca45f29bf010",
+        "MOBHN7ZW6SBDHZWR",
+        min_coupon=10000,
+    )
+    report = make_report(
+        [
+            CheckResult(
+                gated,
+                in_stock=True,
+                deliverable=True,
+                available=True,
+                price=84999.0,
+                coupon=10000.0,
+            )
+        ]
+    )
+    assert report.any_available is True
+    text = render_message(report, "OPPO Find X9 / Find X9s 256GB")
+    assert "AVAILABLE at 412101" in text
+    assert "X9s Lavender Sky" in text
+    assert "coupon <b>₹10,000 off</b>" in text
+
+
+def test_gated_listing_without_coupon_is_not_announced_as_available():
+    gated = Product(
+        "X9s Lavender Sky",
+        "/oppo-find-x9s-lavender-sky-256-gb/p/itmeca45f29bf010",
+        "MOBHN7ZW6SBDHZWR",
+        min_coupon=10000,
+    )
+    report = make_report(
+        [
+            CheckResult(
+                gated,
+                in_stock=True,
+                deliverable=True,
+                available=True,
+                price=84999.0,
+                coupon=9000.0,
+            )
+        ]
+    )
+    assert report.any_available is False
+    text = render_message(report, "OPPO Find X9 / Find X9s 256GB")
+    assert "NOT AVAILABLE at 412101" in text
+    assert "no ₹10,000 coupon" in text
+
+
 def test_partial_errors_are_surfaced():
     report = make_report(
         [

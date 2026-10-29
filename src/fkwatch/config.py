@@ -69,11 +69,24 @@ class Config:
             pid = str(item.get("pid", "")).strip()
             if not path_value or not pid:
                 raise ConfigError(f"{path}: products[{i}] needs both path and pid")
+            min_coupon: float | None = None
+            if item.get("min_coupon") is not None:
+                try:
+                    min_coupon = float(item["min_coupon"])
+                except (TypeError, ValueError) as exc:
+                    raise ConfigError(
+                        f"{path}: products[{i}].min_coupon must be a number"
+                    ) from exc
+                if min_coupon <= 0:
+                    raise ConfigError(
+                        f"{path}: products[{i}].min_coupon must be greater than zero"
+                    )
             products.append(
                 Product(
                     name=str(item.get("name", f"listing {i + 1}")).strip(),
                     path=path_value if path_value.startswith("/") else "/" + path_value,
                     pid=pid,
+                    min_coupon=min_coupon,
                 )
             )
 

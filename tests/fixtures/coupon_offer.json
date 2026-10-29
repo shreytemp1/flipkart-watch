@@ -1,0 +1,98 @@
+{
+  "RESPONSE": {
+    "pageData": {
+      "seoData": {
+        "seo": {
+          "title": "OPPO Find X9s (256 GB Storage, 12 GB RAM) Online at Best Price On Flipkart.com"
+        }
+      },
+      "pageContext": {
+        "fdpEventTracking": {
+          "events": {
+            "psi": {
+              "fsn": "MOBHN7ZW6SBDHZWR",
+              "ppd": {
+                "fsp": 84999.0,
+                "finalPrice": 84999.0,
+                "mrp": 139999.0,
+                "nepPrice": 76499.0,
+                "xtraSaverPrice": 0.0,
+                "specialPrice": true,
+                "isSpecialPrice": true
+              },
+              "pls": {
+                "sellerId": "7e8d549ad45b45d6",
+                "unserviceabilityReason": null,
+                "listingId": "LSTMOBHN7ZW6SBDHZWRGSUH2M",
+                "availabilityStatus": "IN_STOCK",
+                "listingState": "current",
+                "available": true,
+                "serviceable": true,
+                "isAvailable": true,
+                "isServiceable": true,
+                "isFBF": true,
+                "isFA": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "slots": [
+      {
+        "slotType": "WIDGET",
+        "widget": {
+          "type": "ATLAS_WIDGET",
+          "data": {
+            "offers": [
+              {
+                "value": {
+                  "offerSummariesRC": [
+                    {
+                      "value": {
+                        "type": "NepOffers",
+                        "selected": false,
+                        "offerType": "USER_COUPON_SELECTION",
+                        "offerTitleIcon": "normaldeal",
+                        "offerTitle": "Coupons",
+                        "offerSubTitleRC": {
+                          "value": {
+                            "type": "ContentList",
+                            "contentList": [
+                              {
+                                "type": "ContentDetails",
+                                "contentValue": "Save \u20b910,000 extra on 1 item(s)",
+                                "contentType": "TEXT"
+                              }
+                            ]
+                          }
+                        },
+                        "endTimer": 0.0,
+                        "discountedPrice": 0,
+                        "discountedPriceText": "\u20b910000 off"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "slotType": "WIDGET",
+        "widget": {
+          "type": "ATLAS_ADDITIONAL_BENEFITS",
+          "data": {
+            "contentTitle": "Unlock Oppo coupon \u2022 \u20b91499 off",
+            "label": {
+              "value": {
+                "text": "Unlock Oppo coupon \u2022 \u20b91499 off"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import re
 import time
 from typing import Any, Callable, Iterable
 
@@ -54,6 +55,69 @@ def _title(payload: dict[str, Any]) -> str | None:
     return None
 
 
+COUPON_AMOUNT_RE = re.compile(r"₹\s*([\d,]+)")
+
+
+def _coupon_texts(offer: dict[str, Any]) -> list[str]:
+    """Rupee-denominated texts belonging to one coupon offer."""
+    texts: list[str] = []
+    discounted = offer.get("discountedPriceText")
+    if isinstance(discounted, str):
+        texts.append(discounted)
+    subtitle = offer.get("offerSubTitleRC")
+    if isinstance(subtitle, dict):
+        value = subtitle.get("value")
+        if isinstance(value, dict):
+            for item in value.get("contentList") or []:
+                if isinstance(item, dict):
+                    content = item.get("contentValue")
+                    if isinstance(content, str):
+                        texts.append(content)
+    return texts
+
+
+def best_coupon(payload: dict[str, Any]) -> float | None:
+    """Largest flat rupee coupon on the page (percentage coupons are ignored).
+
+    Flipkart exposes user-selectable coupons as offers tagged with
+    ``offerType == "USER_COUPON_SELECTION"`` (or titled ``Coupons``), for
+    example ``discountedPriceText`` "₹9000 off" with the subtitle
+    "Save ₹9,000 extra on 1 item(s)". Accessory coupons such as
+    "Unlock Oppo coupon • ₹1499 off" live elsewhere and are deliberately
+    not treated as phone coupons.
+    """
+    best: float | None = None
+
+    def consider(text: str) -> None:
+        nonlocal best
+        if "%" in text:
+            return
+        for match in COUPON_AMOUNT_RE.finditer(text):
+            try:
+                amount = float(match.group(1).replace(",", ""))
+            except ValueError:
+                continue
+            if best is None or amount > best:
+                best = amount
+
+    def walk(node: Any) -> None:
+        if isinstance(node, dict):
+            if (
+                node.get("offerType") == "USER_COUPON_SELECTION"
+                or node.get("offerTitle") == "Coupons"
+            ):
+                for text in _coupon_texts(node):
+                    consider(text)
+            for value in node.values():
+                walk(value)
+        elif isinstance(node, list):
+            for item in node:
+                walk(item)
+
+    walk(payload)
+    return best
+
+
 def parse_page_json(payload: dict[str, Any], product: Product) -> CheckResult:
     psi = _psi(payload)
     pls = psi.get("pls") or {}
@@ -77,6 +141,7 @@ def parse_page_json(payload: dict[str, Any], product: Product) -> CheckResult:
         mrp=float(mrp) if isinstance(mrp, (int, float)) else None,
         title=_title(payload),
         unserviceability_reason=reason,
+        coupon=best_coupon(payload),
     )
 
 
