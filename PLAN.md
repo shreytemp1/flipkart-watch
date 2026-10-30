@@ -39,7 +39,7 @@ Verified live:
 
 ```
 config.yaml ──┐
-              ├─> fkwatch.cli ─> FlipkartClient ─> Flipkart page API
+              ├─> fkwatch::cli ─> FlipkartClient ─> Flipkart page API
 env secrets ──┘         │                │
                         │                └─> parse psi -> CheckResult
                         ├─> notifier (Telegram)  [skipped in --dry-run]
@@ -51,12 +51,13 @@ Module map:
 
 | File | Responsibility |
 |---|---|
-| `src/fkwatch/config.py` | load/validate `config.yaml`, env overrides |
-| `src/fkwatch/models.py` | `Product`, `CheckResult`, `RunReport` dataclasses |
-| `src/fkwatch/flipkart.py` | session priming, pincode binding, page fetch, retries, parsing |
-| `src/fkwatch/notify.py` | message rendering (HTML, ≤4096 chars) + Telegram send |
-| `src/fkwatch/state.py` | last-seen status file for `changes` mode |
-| `src/fkwatch/cli.py` | orchestration, exit codes, JSON output |
+| `src/config.rs` | load/validate `config.yaml` |
+| `src/models.rs` | `Product`, `CheckResult`, `RunReport` |
+| `src/flipkart.rs` | session priming, pincode binding, page fetch, retries, parsing |
+| `src/notify.rs` | message rendering (HTML, ≤4096 chars) + Telegram send |
+| `src/state.rs` | last-seen status file for `changes` mode |
+| `src/cli.rs` | orchestration, exit codes, JSON output |
+| `src/main.rs` | binary entry point |
 
 ## 3. Availability rule
 
@@ -89,13 +90,13 @@ Errors are a separate `⚠️` message listing the failing listing and the reaso
 ## 5. Delivery pipeline
 
 `.github/workflows/watch.yml`
-- `schedule: '*/6 * * * *'` + `workflow_dispatch`; each run checks at t=0 and t=3 min for an effective
-  3-minute cadence (GitHub's scheduler floor is 5 minutes)
+- `repository_dispatch` type `flipkart-stock-check` (fired by cron-job.org every ~2 minutes) + `workflow_dispatch`
 - `concurrency: {group: flipkart-watch, cancel-in-progress: false}`
-- `timeout-minutes: 5`
-- installs the package, runs `python -m fkwatch`, uploads `result.json` as an artifact
+- `timeout-minutes: 10`
+- builds the Rust binary (`cargo build --release --locked`) and runs `./target/release/fkwatch`
+- uploads `result.json` as an artifact
 - secrets: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`
-- optional Actions cache for `.state/` when `mode: changes`
+- Actions cache restores/saves `.state/`
 
 ## 6. Build phases
 

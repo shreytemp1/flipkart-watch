@@ -35,7 +35,8 @@ refurbished / third-party marketplaces (Amazon, OPPO store).
     (out of stock / not deliverable).
 - **FR-6** Notification mode is configurable:
   - `always` (default): send every run, as requested;
-  - `changes`: send only when availability flips or price changes.
+  - `changes`: send only when availability flips or price changes;
+  - `available`: send only when at least one listing is in stock and deliverable.
 - **FR-7** Failures (network, HTTP 4xx/5xx, missing fields, pincode not applied) must never be reported as
   "not available" silently; they are reported as an **error** message and the run exits non-zero so GitHub
   flags it.
@@ -69,8 +70,8 @@ refurbished / third-party marketplaces (Amazon, OPPO store).
 
 ## 6. Acceptance criteria
 
-1. `pytest` passes offline.
-2. `python -m fkwatch --dry-run` prints the exact Telegram message for the current live state of all 4 links.
+1. `cargo test` passes offline.
+2. `cargo run -- --dry-run` prints the exact Telegram message for the current live state of all 4 links.
 3. A live run against pincode 412101 correctly reports the current truth (today: all four out of stock).
 4. With valid credentials, one message arrives in Telegram per run.
 5. GitHub Actions workflow runs on schedule and via manual dispatch.
