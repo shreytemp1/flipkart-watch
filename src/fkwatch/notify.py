@@ -43,7 +43,7 @@ def render_message(report: RunReport, device: str) -> str:
         ]
         for result in report.available:
             line = f"• <b>{_esc(result.product.name)}</b> — <b>{result.price_text()}</b>"
-            if result.coupon:
+            if result.product.min_coupon is not None and result.coupon:
                 line += f" — coupon <b>₹{result.coupon:,.0f} off</b>"
             lines.append(f"{line}\n   {_link(result)}")
         others = [r for r in report.results if r.ok and not r.qualifies]

@@ -11,29 +11,19 @@ def test_repository_config_is_valid():
     config = Config.load(ROOT / "config.yaml")
     assert config.pincode == "412101"
     assert "Pimpri-Chinchwad" in config.address
-    assert len(config.products) == 6
+    assert len(config.products) == 4
     assert {p.pid for p in config.products} == {
         "MOBHGZZ8GH2Z85MY",
         "MOBHGZZ8SAMGGJHR",
         "MOBHKZVXT93DXHMP",
         "MOBHG8Y56JNQGGTX",
-        "MOBHN7ZWWYXQQKGE",
-        "MOBHN7ZW6SBDHZWR",
     }
     assert config.notify.mode == "available"
 
 
 def test_x9_listings_have_no_coupon_gate():
     config = Config.load(ROOT / "config.yaml")
-    x9 = {p.name: p for p in config.products[:4]}
-    assert all(p.min_coupon is None for p in x9.values())
-
-
-def test_x9s_listings_require_a_10000_coupon():
-    config = Config.load(ROOT / "config.yaml")
-    x9s = {p.name: p for p in config.products if p.name.startswith("X9s")}
-    assert set(x9s) == {"X9s Midnight Grey", "X9s Lavender Sky"}
-    assert all(p.min_coupon == 10000 for p in x9s.values())
+    assert all(p.min_coupon is None for p in config.products)
 
 
 def test_product_url_is_built():
